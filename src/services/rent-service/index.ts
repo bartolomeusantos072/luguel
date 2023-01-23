@@ -1,6 +1,6 @@
 import { conflictError, notFoundError, requestError } from "@/errors";
 import rentRepository from "@/repositories/rent-repository";
-import { AddPhotoImmobile, AddressImovelParams, ImmobilesParams, photos } from "@/schemas";
+import { AddPhotoImmobile, AddressImovelParams, ImmobilesParams } from "@/schemas";
 
 async function readImmobiles() {
   const immobiles = await rentRepository.readImmobiles();
