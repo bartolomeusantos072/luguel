@@ -1,5 +1,5 @@
 import { request } from "@/utils/request";
-import { notFoundError } from "@/errors";
+import { invalidDataError, notFoundError } from "@/errors";
 import addressRepository, { CreateAddressParams } from "@/repositories/address-repository";
 import enrollmentRepository, { CreateEnrollmentParams } from "@/repositories/enrollment-repository";
 import { exclude } from "@/utils/prisma-utils";
@@ -9,8 +9,9 @@ type GetOneWithAddressByUserIdResult = Omit<Enrollment, "userId" | "createdAt" |
 
 type GetAddressResult = Omit<Address, "createdAt" | "updatedAt" | "enrollmentId">;
 
-async function getAddressFromCEP() {
-  const result = await request.get("https://viacep.com.br/ws/37440000/json/");
+async function getAddressFromCEP(cep: string) {
+  const zipCode = cep.replace("-", "").trim();
+  const result = await request.get(`https://viacep.com.br/ws/${zipCode}/json/`);
 
   if (!result.data) {
     throw notFoundError();
