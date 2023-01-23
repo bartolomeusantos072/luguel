@@ -48,12 +48,12 @@ CREATE TABLE "AddressImovel" (
 );
 
 -- CreateTable
-CREATE TABLE "photosimovel" (
+CREATE TABLE "photosImmobile" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "imovelId" INTEGER NOT NULL,
 
-    CONSTRAINT "photosimovel_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "photosImmobile_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -63,4 +63,4 @@ CREATE UNIQUE INDEX "AddressImovel_imovelId_key" ON "AddressImovel"("imovelId");
 ALTER TABLE "AddressImovel" ADD CONSTRAINT "AddressImovel_imovelId_fkey" FOREIGN KEY ("imovelId") REFERENCES "Imovel"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "photosimovel" ADD CONSTRAINT "photosimovel_imovelId_fkey" FOREIGN KEY ("imovelId") REFERENCES "Imovel"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "photosImmobile" ADD CONSTRAINT "photosImmobile_imovelId_fkey" FOREIGN KEY ("imovelId") REFERENCES "Imovel"("id") ON DELETE CASCADE ON UPDATE CASCADE;

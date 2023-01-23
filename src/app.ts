@@ -8,16 +8,18 @@ import { loadEnv, connectDb, disconnectDB } from "@/config";
 loadEnv();
 
 import { handleApplicationErrors } from "@/middlewares";
-import { usersRouter, authenticationRouter, enrollmentsRouter } from "@/routers";
+import { usersRouter, authenticationRouter, enrollmentsRouter, searchBoxRouter, rentRouter } from "@/routers";
 
 const app = express();
 app
   .use(cors())
   .use(express.json())
   .get("/health", (_req, res) => res.send("OK!"))
+  .use("/rent", rentRouter)
   .use("/users", usersRouter)
   .use("/auth", authenticationRouter)
   .use("/enrollments", enrollmentsRouter)
+  .use("/search", searchBoxRouter)
   .use(handleApplicationErrors);
 
 export function init(): Promise<Express> {

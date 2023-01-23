@@ -18,6 +18,7 @@ model User {
   updatedAt  DateTime     @updatedAt
   Session    Session[]
   Enrollment Enrollment[]
+  Imovel     Imovel[]
 }
 
 model Session {
@@ -57,53 +58,60 @@ model Address {
   updatedAt     DateTime   @updatedAt
 }
 
+model AddressImovel {
+  id            Int    @id @default(autoincrement())
+  cep           String @db.VarChar(255)
+  street        String @db.VarChar(255)
+  number        String @db.VarChar(255)
+  neighborhood  String @db.VarChar(255)
+  city          String @db.VarChar(255)
+  state         String @db.VarChar(255)
+  addressDetail String @db.VarChar(255)
+  imovelId      Int    @unique
+  Imovel        Imovel @relation(fields: [imovelId], references: [id])
+}
+
 model Imovel {
-  id            Int             @id @default(autoincrement())
-  photosImovel  PhotosImovel[]
-  area          Int
-  room          Int
-  bathroom      Int
-  garagem       Int
-  price         Int
-  condominium   Int
-  iptu          String
-  availability  Boolean
-  pet           Boolean
-  mobilia       Boolean
-  quintal       Boolean
-  ilumination   amountStatus
-  water         amountStatus
-  addressImovel AddressImovel[]
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
+  id             Int              @id @default(autoincrement())
+  addressImovel  AddressImovel[]
+  area           Int
+  rooms          Int
+  bathroom       Int
+  garage         Int
+  yard           Boolean
+  ilumination    amountStatus
+  water          amountStatus
+  pipedGas       Boolean
+  furniture      mobiliaStatus
+  pet            Boolean
+  condominium    Int
+  rent           Int
+  iptu           Int
+  availability   Boolean
+  userId         Int
+  User           User             @relation(fields: [userId], references: [id])
+  photosImmobile PhotosImmobile[]
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+}
+
+enum mobiliaStatus {
+  FURNISHED
+  FURNISHEDOFF
+  FURNISHEDSEMI
 }
 
 enum amountStatus {
-  ISENTO
-  INDIVIDUAL
-  DIVIDA
-  TAXA_UNICA
-  INCLUSO
+  SHARED
+  UNIQUE
+  INCLUDED
 }
 
-model AddressImovel {
-  id            Int     @id @default(autoincrement())
-  cep           String  @db.VarChar(255)
-  street        String  @db.VarChar(255)
-  city          String  @db.VarChar(255)
-  state         String  @db.VarChar(255)
-  number        String  @db.VarChar(255)
-  neighborhood  String  @db.VarChar(255)
-  addressDetail String? @db.VarChar(255)
-  imovelId      Int     @unique
-  Imovel        Imovel  @relation(fields: [imovelId], references: [id])
-}
-
-model PhotosImovel {
-  id      Int    @id @default(autoincrement())
-  imovel   Imovel  @relation(fields: [imovelId], references: [id],onUpdate: Cascade,onDelete: Cascade)
-  name    String
+model PhotosImmobile {
+  id       Int    @id @default(autoincrement())
   imovelId Int
+  name     String
+  imovel   Imovel @relation(fields: [imovelId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
-  @@map("photosimovel")
+  @@map("photosImmobile")
 }
